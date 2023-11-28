@@ -57,8 +57,6 @@ const EloLine = () => {
             type: "timeseries",
             time: {
               unit: "month",
-              min: new Date("2008-01-01").valueOf(),
-              max: new Date("2022-12-31").valueOf(),
             },
           },
           y: {
@@ -68,9 +66,6 @@ const EloLine = () => {
         elements: {
           point: {
             radius: 0,
-          },
-          line: {
-            pointRadius: 0,
           },
         },
       }}

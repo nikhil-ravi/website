@@ -1,7 +1,6 @@
 "use client";
 
 import { teamColors } from "@/content/IplElo/constants";
-import { theme } from "@/content/IplElo/nivoTheme";
 import { ResponsiveChord } from "@nivo/chord";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -42,7 +41,13 @@ const HeadToHead = () => {
           return teamColors[id];
         }}
         motionConfig="stiff"
-        theme={theme}
+        theme={{
+          tooltip: {
+            container: {
+              background: "#333",
+            },
+          },
+        }}
       />
     </div>
   );

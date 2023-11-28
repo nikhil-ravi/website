@@ -1,7 +1,6 @@
 "use client";
 
 import { ResponsiveSwarmPlot } from "@nivo/swarmplot";
-import Tooltip from "./Rank/SwarmTooltip";
 import { teamColors } from "@/content/IplElo/constants";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -25,7 +24,7 @@ const RankTableSwarm = () => {
         })),
       ]),
     )
-    .filter((d) => (d.eloRank !== null) & (d.tableRank !== null));
+    .filter((d) => d.eloRank !== null && d.tableRank !== null);
   const groups = [...new Set(data_.map((d) => d.eloRank))].sort(
     (a, b) => a - b,
   );
@@ -37,9 +36,8 @@ const RankTableSwarm = () => {
           data={data_}
           groups={groups}
           groupBy="eloRank"
-          identity="id"
           value="tableRank"
-          valueFormat="$.0f"
+          valueFormat=".0f"
           valueScale={{ type: "linear", min: 1, max: 10, reverse: true }}
           size={{
             key: "elo",
@@ -61,7 +59,6 @@ const RankTableSwarm = () => {
           }}
           margin={{ top: 10, right: 0, bottom: 50, left: 100 }}
           axisBottom={{
-            orient: "bottom",
             tickSize: 10,
             tickPadding: 5,
             tickRotation: 0,
@@ -70,7 +67,6 @@ const RankTableSwarm = () => {
             legendOffset: 46,
           }}
           axisLeft={{
-            orient: "left",
             tickSize: 10,
             tickPadding: 5,
             tickRotation: 0,
@@ -78,7 +74,13 @@ const RankTableSwarm = () => {
             legendPosition: "middle",
             legendOffset: -35,
           }}
-          // tooltip={Tooltip}
+          theme={{
+            tooltip: {
+              container: {
+                background: "#333",
+              },
+            },
+          }}
         />
       )}
     </div>

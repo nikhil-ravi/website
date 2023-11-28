@@ -1,7 +1,6 @@
 "use client";
 
 import { teamColors } from "@/content/IplElo/constants";
-import { theme } from "@/content/IplElo/nivoTheme";
 import { ResponsiveBoxPlot } from "@nivo/boxplot";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -80,7 +79,13 @@ const EloBox = () => {
             symbolShape: "square",
           },
         ]}
-        theme={theme}
+        theme={{
+          tooltip: {
+            container: {
+              background: "#333",
+            },
+          },
+        }}
       />
     </div>
   );

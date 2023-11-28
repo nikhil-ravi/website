@@ -1,6 +1,5 @@
 "use client";
 
-import { theme } from "@/content/IplElo/nivoTheme";
 import { ResponsivePie } from "@nivo/pie";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -38,7 +37,13 @@ const DaysAtRank1 = () => {
           from: "color",
           modifiers: [["darker", 2]],
         }}
-        theme={theme}
+        theme={{
+          tooltip: {
+            container: {
+              background: "#333",
+            },
+          },
+        }}
       />
     </div>
   );

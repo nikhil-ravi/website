@@ -1,7 +1,7 @@
 "use client";
 
 import { ResponsiveBump } from "@nivo/bump";
-import { theme } from "@/content/IplElo/nivoTheme";
+
 import Point from "./Rank/Point";
 import { teamColors } from "@/content/IplElo/constants";
 import Skeleton from "react-loading-skeleton";
@@ -45,7 +45,13 @@ const RankBump = () => {
         }}
         margin={{ top: 0, right: 45, bottom: 40, left: 35 }}
         axisRight={null}
-        theme={theme}
+        theme={{
+          tooltip: {
+            container: {
+              background: "#333",
+            },
+          },
+        }}
       />
     </div>
   );
