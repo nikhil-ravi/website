@@ -12,6 +12,10 @@ const config: Config = {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         serif: ["Merriweather", "serif"],
+        naruto: ["var(--font-naruto)"],
+      },
+      colors: {
+        "naruto-orange": "#EC6000",
       },
     },
   },

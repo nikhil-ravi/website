@@ -1,13 +1,37 @@
+import Timeline from "@/components/NarutoColors/Timeline";
+import React from "react";
+
 export type Project = {
   title: string;
   description: string;
-  image: string;
+  image: string | React.ReactElement;
   url?: string;
   github?: string;
   tags?: string[];
 };
 
 export const projects: Project[] = [
+  {
+    title: "Colors of Naruto",
+    description: ` Visual analysis of the color palettes in the Naruto manga covers across 72 volumes. Inspired by impactful data visualization projects, it explores trends and themes using K-means clustering in the CIELAB color space.`,
+    image: <Timeline calledBy="projectsList-image" />,
+    url: "/projects/naruto-colors",
+    github: "https://github.com/nikhil-ravi/naruto-colors",
+    tags: [
+      "data-science",
+      "manga",
+      "naruto",
+      "color-palettes",
+      "k-means-clustering",
+      "nextjs",
+      "nivo-charts",
+      "data-visualization",
+      "narrative-charts",
+      "fair-use",
+      "cielab-space",
+      "color-analysis",
+    ],
+  },
   {
     title: "Chess Insights",
     image: "https://imgur.com/VrDVlVL.png",

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "https://www.nikhilravi.com"),
@@ -34,6 +35,16 @@ export const metadata: Metadata = {
   },
 };
 
+const naruto = localFont({
+  src: [
+    {
+      path: "../../public/fonts/njnaruto.ttf",
+      weight: "400",
+    },
+  ],
+  variable: "--font-naruto",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -42,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="bg-white text-black dark:bg-[#111010] dark:text-white"
+      className={`${naruto.variable} bg-white text-black dark:bg-[#111010] dark:text-white`}
     >
       <body className="mx-4 mb-40 mt-8 flex max-w-2xl flex-col antialiased md:flex-row lg:mx-auto">
         <main className="mt-6 flex min-w-0 flex-auto flex-col px-2 md:px-0">
