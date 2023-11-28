@@ -15,7 +15,7 @@ export const projects: Project[] = [
     title: "Colors of Naruto",
     description: ` Visual analysis of the color palettes in the Naruto manga covers across 72 volumes. Inspired by impactful data visualization projects, it explores trends and themes using K-means clustering in the CIELAB color space.`,
     Visual: <Timeline calledBy="projectsList" />,
-    url: "/projects/naruto-colors",
+    url: "projects/naruto-colors",
     github: "https://github.com/nikhil-ravi/naruto-colors",
     tags: [
       "data-science",
@@ -62,7 +62,7 @@ export const projects: Project[] = [
       "https://pics.craiyon.com/2023-10-14/30d98f9a1a334a78b8f1ed5dbd4327d6.webp",
     description:
       "Adapting the Elo rating system to rank IPL teams based on their performance in the league.",
-    url: "ipl-elo",
+    url: "projects/ipl-elo",
     github: "https://github.com/nikhil-ravi/ipl-elo",
     tags: [
       "Python",
