@@ -1,20 +1,20 @@
 import Timeline from "@/components/NarutoColors/Timeline";
-import React from "react";
 
 export type Project = {
   title: string;
   description: string;
-  image: string | React.ReactElement;
+  image?: string;
   url?: string;
   github?: string;
   tags?: string[];
+  Visual?: React.JSX.Element;
 };
 
 export const projects: Project[] = [
   {
     title: "Colors of Naruto",
     description: ` Visual analysis of the color palettes in the Naruto manga covers across 72 volumes. Inspired by impactful data visualization projects, it explores trends and themes using K-means clustering in the CIELAB color space.`,
-    image: <Timeline calledBy="projectsList-image" />,
+    Visual: <Timeline calledBy="projectsList" />,
     url: "/projects/naruto-colors",
     github: "https://github.com/nikhil-ravi/naruto-colors",
     tags: [
@@ -30,27 +30,6 @@ export const projects: Project[] = [
       "fair-use",
       "cielab-space",
       "color-analysis",
-    ],
-  },
-  {
-    title: "Chess Insights",
-    image: "https://imgur.com/VrDVlVL.png",
-    description: `Chess Insights looks at all your games and gives you insights on what it finds in the data! Be it your wins and losses, hanging pieces, accuracy, or even what time of day you win the most, we've got all the data for you right here!`,
-    url: "https://chess.chowkabhara.com/",
-    github: "https://github.com/nikhil-ravi/ChessInsights-react",
-    tags: [
-      "React.js",
-      "MUI",
-      "Nivo Charts",
-      "Chess",
-      "Insights",
-      "Supabase",
-      "PostgreSQL",
-      "MongoDB",
-      "Express",
-      "Redux Tookit Query",
-      "Data Science",
-      "Analytics",
     ],
   },
   {
@@ -112,6 +91,27 @@ export const projects: Project[] = [
     github: "https://github.com/nikhil-ravi/LeetScrape",
     url: "https://leetscrape.chowkabhara.com/",
     tags: ["Python", "Supabase", "SQLAlchemy", "MKDocs", "Poetry", "Pytest"],
+  },
+  {
+    title: "Chess Insights",
+    image: "https://imgur.com/VrDVlVL.png",
+    description: `Chess Insights looks at all your games and gives you insights on what it finds in the data! Be it your wins and losses, hanging pieces, accuracy, or even what time of day you win the most, we've got all the data for you right here!`,
+    url: "https://chess.chowkabhara.com/",
+    github: "https://github.com/nikhil-ravi/ChessInsights-react",
+    tags: [
+      "React.js",
+      "MUI",
+      "Nivo Charts",
+      "Chess",
+      "Insights",
+      "Supabase",
+      "PostgreSQL",
+      "MongoDB",
+      "Express",
+      "Redux Tookit Query",
+      "Data Science",
+      "Analytics",
+    ],
   },
   {
     title: "Chowkabhara",

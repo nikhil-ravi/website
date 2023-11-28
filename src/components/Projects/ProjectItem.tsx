@@ -9,15 +9,19 @@ function Project({ item }: { item: Project; className?: string }) {
   return (
     <div className="mx-auto mb-4 overflow-hidden rounded-md p-1 duration-300 hover:scale-105 md:max-w-[300px] lg:max-w-[400px]">
       <Link href={item.url || item.github}>
-        <Image
-          sizes="100vw"
-          width={0}
-          height={0}
-          src={item.image}
-          alt="Project Image"
-          style={{ width: "100%", height: "auto" }}
-          className=""
-        />
+        {item.Visual ? (
+          <div className="h-56">{item.Visual}</div>
+        ) : (
+          <Image
+            sizes="100vw"
+            width={0}
+            height={0}
+            src={item.image}
+            alt="Project Image"
+            style={{ width: "100%", height: "auto" }}
+            className=""
+          />
+        )}
       </Link>
       <div className="pt-4">
         <div className="text-lg font-medium tracking-tighter">{item.title}</div>

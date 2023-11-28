@@ -9,7 +9,7 @@ function ProjectsList() {
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 250: 1, 450: 2 }}>
       <Masonry gutter="25px">
-        {projects.map((project, index) => (
+        {projects.map((project) => (
           <Project key={project.title} item={project} />
         ))}
       </Masonry>

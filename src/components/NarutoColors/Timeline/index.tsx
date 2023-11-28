@@ -29,14 +29,12 @@ function Timeline({
   return (
     <div className="flex h-full w-full">
       {issues.map((issue) => (
-        <div key={issue.volume} className="h-full w-full">
-          <a
-            data-tooltip-id={`${calledBy}-${issue.volume}`}
-            // data-tooltip-float={true}
-            // data-tooltip-position-strategy="fixed"
-          >
-            <IssueChart volume={issue} enableHoverEffect={enableHoverEffect} />
-          </a>
+        <div
+          key={issue.volume}
+          className="h-full w-full"
+          data-tooltip-id={`${calledBy}-${issue.volume}`}
+        >
+          <IssueChart volume={issue} enableHoverEffect={enableHoverEffect} />
           <TooltipContent
             id={`${calledBy}-${issue.volume}`}
             issue={issue}
@@ -67,7 +65,7 @@ const TooltipContent = ({
     <div className="font-naruto">
       {issue.volume}. <strong>{issue.name}</strong>
     </div>
-    <div className="-mb-4">
+    <div className="-mb-0">
       {new Date(issue.date).toLocaleDateString(undefined, {
         year: "numeric",
         month: "short",
@@ -75,7 +73,7 @@ const TooltipContent = ({
       })}
     </div>
     <Image
-      src={`/NarutoColors/covers/${issue.volume}.webp`}
+      src={`/naruto-colors/covers/${issue.volume}.webp`}
       alt="issue cover"
       sizes="100vw"
       width={0}
