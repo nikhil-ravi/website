@@ -58,10 +58,9 @@ export const projects: Project[] = [
   },
   {
     title: "Elo Rating for IPL Teams",
-    image:
-      "https://pics.craiyon.com/2023-10-14/30d98f9a1a334a78b8f1ed5dbd4327d6.webp",
     description:
       "Adapting the Elo rating system to rank IPL teams based on their performance in the league.",
+    image: "/ipl-elo/ipl-elo.png",
     url: "projects/ipl-elo",
     github: "https://github.com/nikhil-ravi/ipl-elo",
     tags: [
