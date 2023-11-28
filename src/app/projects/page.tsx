@@ -7,8 +7,8 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 function page() {
   return (
-    <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
-      <Masonry gutter="5px">
+    <ResponsiveMasonry columnsCountBreakPoints={{ 250: 1, 450: 2 }}>
+      <Masonry gutter="25px">
         {projects.map((project, index) => (
           <Project key={project.title} item={project} />
         ))}
