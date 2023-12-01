@@ -1,3 +1,4 @@
+import TreeMap from "@/components/IndianLanguages/TreeMap";
 import Timeline from "@/components/NarutoColors/Timeline";
 
 export type Project = {
@@ -11,6 +12,21 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    title: "Indian Languages",
+    description: `A visualization of the number of speakers of Indian languages, grouped by family. The data is sourced from the 2011 Indian census. The visualization is built using React and Nivo.`,
+    Visual: <TreeMap />,
+    url: "projects/indian-languages",
+    tags: [
+      "data-visualization",
+      "react",
+      "nivo",
+      "treemap",
+      "indian-languages",
+      "census",
+      "india",
+    ],
+  },
   {
     title: "Colors of Naruto",
     description: ` Visual analysis of the color palettes in the Naruto manga covers across 72 volumes. Inspired by impactful data visualization projects, it explores trends and themes using K-means clustering in the CIELAB color space.`,
