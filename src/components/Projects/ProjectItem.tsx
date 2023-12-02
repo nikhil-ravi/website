@@ -24,7 +24,12 @@ function Project({ item }: { item: Project; className?: string }) {
         )}
       </Link>
       <div className="pt-4">
-        <div className="text-lg font-medium tracking-tighter">{item.title}</div>
+        <Link
+          href={item.url || item.github}
+          className="text-lg font-medium tracking-tighter"
+        >
+          {item.title}
+        </Link>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {item.description}
         </p>
