@@ -1,5 +1,5 @@
 import React from "react";
-import { education } from "@/content/educationData";
+import { education } from "@/content/Home/educationData";
 import EducationItem from "./EducationItem";
 
 function Education() {

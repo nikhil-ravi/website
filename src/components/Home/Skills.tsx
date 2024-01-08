@@ -1,4 +1,4 @@
-import { skills } from "@/content/skillsData";
+import { skills } from "@/content/Home/skillsData";
 
 export default function Skills() {
   return (

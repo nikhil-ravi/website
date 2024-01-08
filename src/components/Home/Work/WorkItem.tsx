@@ -1,4 +1,4 @@
-import { Work } from "@/content/workData";
+import { Work } from "@/content/Home/workData";
 import React from "react";
 
 function WorkItem({ item, className }: { item: Work; className?: string }) {

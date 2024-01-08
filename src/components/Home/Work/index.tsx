@@ -1,5 +1,5 @@
 import React from "react";
-import { work } from "@/content/workData";
+import { work } from "@/content/Home/workData";
 import WorkItem from "./WorkItem";
 
 function Work() {

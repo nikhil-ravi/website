@@ -16,7 +16,12 @@ import {
   SiOpenaigym,
   SiPytorch,
 } from "react-icons/si";
-import { GCPIcon, MATLABIcon, RayIcon, StatsmodelsIcon } from "./Icons";
+import {
+  GCPIcon,
+  MATLABIcon,
+  RayIcon,
+  StatsmodelsIcon,
+} from "@/components/Icons";
 
 export type Skill = {
   name: string;
