@@ -1,0 +1,224 @@
+# Managing Your CV with Git: A Version Control Approach
+
+In today's tech-savvy world, developers are accustomed to using version control systems like Git to manage their code repositories. However, applying the same principles to manage your curriculum vitae (CV) can be a game-changer. This approach allows you to maintain both a private CV, containing complete information, and a public CV, with sensitive details removed. The following guide outlines a technical workflow using Git, Pandoc, and Make to achieve this.
+
+## The Problem
+
+When you share your CV, you may want to present different versions to different audiences. Recruiters might need your full contact details, while a public version shared online should prioritize privacy. The challenge is maintaining these versions without creating redundant files or compromising sensitive information.
+
+## The Solution
+
+You can follow along using my template repository at [nikhil-ravi/resume-public](https://github.com/nikhil-ravi/resume-public). This repository contains a `resume.md` file that you can edit to include your information. The `Makefile` and GitHub Actions workflow are already configured to automate the compilation process. The workflow releases the private and public versions to their respective repositories. The following sections explain the workflow in detail.
+
+### 1. Local Development
+
+#### Setting up Dependencies
+
+To implement this workflow, you'll need Git, Pandoc, and Make. For example, on Ubuntu, you can install them as follows:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y git make wget texlive-xetex
+```
+
+Install the latest version of Pandoc from [jgm/pandoc](https://github.com/jgm/pandoc/releases). Adjust the version number in the commands accordingly.
+
+```bash
+wget https://github.com/jgm/pandoc/releases/download/3.1.11.1/pandoc-3.1.11.1-1-amd64.deb
+sudo dpkg -i pandoc-3.1.11.1-1-amd64.deb
+rm pandoc-3.1.11.1-1-amd64.deb
+```
+
+#### Editing the CV
+
+Edit the `resume.md` file to include your information. To hide information in the public release, enclose that part in HTML `span` tags with a class name of `privatize`.
+
+```markdown
+# Your Name
+
+Your Location | 
+[Your Phone | Your Email |]{.privatize}
+LinkedIn | GitHub
+```
+
+#### Creating a Pandoc Filter
+
+Pandoc supports [filters](https://pandoc.org/filters.html) to modify the document before conversion. We'll use a custom filter to remove the `privatize` class from the HTML output. Create a file named `filter.lua` with the following contents:
+
+```lua
+-- filter.lua
+function Pandoc (doc)
+  local privatize = doc.meta['privatize']
+  return doc:walk {
+    Span = function (span)
+      if span.classes:includes 'privatize' then
+        return privatize and
+          {} or               -- otherwise return an empty list of elements
+          span.content        -- unwrap the span, just return the contents
+      end
+    end
+  }
+end
+```
+This function checks every `span` element in the document. If it has a `privatize` class, it removes the class if the `privatize` metadata is `true`. Otherwise, it unwraps the `span` and returns its contents.
+
+#### Create a Makefile
+
+Create a file named `Makefile` with the following contents:
+
+```makefile
+RESUME = resume.md
+OUTPUT_DIR = output
+
+all: docx pdf
+
+docx:
+	@mkdir -p $(OUTPUT_DIR)
+	pandoc $(RESUME) -o $(OUTPUT_DIR)/NikhilRavi_CV-$(BRANCH_NAME).docx \
+		--lua-filter filter.lua \
+		-M private=$(PRIVATIZE)
+
+pdf:
+	@mkdir -p $(OUTPUT_DIR)
+	pandoc $(RESUME) -o $(OUTPUT_DIR)/NikhilRavi_CV-$(BRANCH_NAME).pdf \
+		--pdf-engine=xelatex \
+		--variable geometry:margin=0.5in \
+		--variable fontsize=8pt \
+		--variable documentclass=scrartcl \
+		--variable classoption=twoside \
+		--variable classoption=a4paper \
+		--variable lang=en \
+		--variable toc-depth=2 \
+		--variable toc-own-page=true \
+		--variable indent=true \
+		--pdf-engine-opt=--shell-escape \
+		--lua-filter filter.lua \
+		-V colorlinks=true \
+		-V linkcolor=blue \
+		-V urlcolor=blue \
+		-V toccolor=gray \
+		-M privatize=$(PRIVATIZE)
+
+clean:
+	rm -rf $(OUTPUT_DIR)
+
+.PHONY: all docx pdf clean
+```
+This Makefile defines two targets, `docx` and `pdf`, which generate the corresponding files. The `all` target generates both files. The `clean` target removes the `output` directory. The `BRANCH_NAME` variable is used to name the output files. The `PRIVATIZE` variable controls whether the private information is included in the output. The PDF target uses the `xelatex` engine and the `scrartcl` document class to generate a two-sided A4 document with 8pt font size and 0.5in margins. 
+
+#### Running the Build
+
+Run the following command to generate both private and public versions:
+
+```bash
+make all BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) PRIVATIZE=true
+```
+This will create PDF and DOCX files in the `output` directory.
+
+### 2. GitHub Actions
+
+Create a GitHub Actions workflow to automate the compilation process. This workflow will run on every push to the repository and release the private and public versions to their respective repositories.
+
+#### Workflow Definition
+
+Create a file named `.github/workflows/build-resume.yml` with the following contents:
+
+```yaml
+name: Build and Deploy Resume
+
+on: push
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: muggle7/resume:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set TAG_NAME
+        id: set_tag_name
+        run: |
+          echo "TAG_NAME=v$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Build Private Resume
+        run: |
+          git config --global --add safe.directory /__w/resume/resume
+          mkdir -p output
+          make all BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) PRIVATIZE=false
+
+      - name: Create Tag
+        run: |
+          git tag ${{ env.TAG_NAME }}
+          git push origin ${{ env.TAG_NAME }}
+
+      - name: Create Private Release
+        id: create_private_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/*
+          tag_name: ${{ env.TAG_NAME }}
+
+      - name: Upload Private Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/*
+          tag_name: ${{ env.TAG_NAME }}
+
+      # Now we build the public version and create a release on the nikhil-ravi/resume-public repo
+      - name: Build Public Resume
+        run: |
+          git config --global --add safe.directory /__w/resume/resume
+          mkdir -p output
+          make all BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) PRIVATIZE=true
+
+      - name: Create Public Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_REPO_SECRET  }}
+        run: |
+          git config --global user.email "nr337@cornell.edu"
+          git config --global user.name "Nikhil Ravi"
+          gh release create ${{ env.TAG_NAME }} --title ${{ env.TAG_NAME }} output/* -R ${{ vars.PUBLIC_REPO_URL }}
+```
+This workflow runs on every push to the repository. It uses the `muggle7/resume` Docker image to build the CV. The `set_tag_name` step generates a timestamped tag name. The `build_private_resume` step generates the private version and creates a tag. The `create_private_release` step creates a release on the private repository. The `upload_private_release_asset` step uploads the private version as a release asset. The `build_public_resume` step generates the public version. The `create_public_release` step creates a release on the public repository.
+
+
+#### Repository Setup
+
+- Create two repositories, one private and one public.
+- Enable GitHub Actions in the private repository.
+- Generate a Fine-grained Personal Access Token with `Read and Write` permissions for `Actions` and `Contents`.
+- Add the token as a repository secret named `RELEASE_REPO_SECRET` in the private repository.
+- Add the public repository URL as an environment variable named `PUBLIC_REPO_URL` in the private repository.
+
+#### Workflow Execution
+
+Commit and push changes to the private repository. GitHub Actions will execute the workflow defined in `.github/workflows/build-resume.yml`. It releases the private and public versions to their respective repositories.
+
+### 3. Auto-Compile on Save with VS Code
+
+You can automate the compilation process in VS Code using the [Run on Save](https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave) extension. This ensures that your CV is always up-to-date when you save changes to the `resume.md` file.
+
+### 4. Docker Image (Optional)
+
+The GitHub Actions workflow uses the `muggle7/resume` Docker image to build the CV. This image is based on Ubuntu and has all the dependencies pre-installed. In case you want to customize the image, the `Dockerfile` is available in the `docker` directory of my [repository](https://github.com/nikhil-ravi/resume-public).
+
+## Why Is This Important?
+
+1. **Privacy Control:** Maintaining a private version ensures that sensitive details are not accidentally shared online.
+
+2. **Efficiency:** Version control helps you track changes, experiment with different formats, and collaborate with others more efficiently.
+
+3. **Consistency:** By automating the compilation process, you guarantee that both versions are always consistent and up-to-date.
+
+4. **Flexibility:** Tailor your CV for different purposes without duplicating effort or risking information leaks.
+
+## Acknowledgements
+
+This workflow is inspired by dunkbing's [resume](https://github.com/dunkbing/dunkbing) and offers a robust, technical solution for managing your CV with Git.

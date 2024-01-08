@@ -13,6 +13,23 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Version Control for my Resume",
+    description:
+      "Manage your private and public resumes effortlessly with this GitHub repository. Generate privacy-conscious, shareable resumes from a Markdown source using GitHub Actions, Pandoc, and Docker support. Keep your personal details secure while providing an accessible version for wider distribution.",
+    // image: "/resume-version-control/resume-version-control.png",
+    url: "projects/resume-git",
+    github: "https://github.com/nikhil-ravi/resume-public",
+    tags: [
+      "resume",
+      "markdown",
+      "github-actions",
+      "pandoc",
+      "docker",
+      "resume-website",
+      "resume-version-control",
+    ],
+  },
+  {
     title: "Indian Languages",
     description: `A visualization of the number of speakers of Indian languages, grouped by family. The data is sourced from the 2011 Indian census. The visualization is built using React and Nivo.`,
     Visual: <TreeMap />,
