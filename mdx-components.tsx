@@ -59,9 +59,18 @@ function RoundedImage(props) {
   return <Image alt={props.alt} className="rounded-lg" {...props} />;
 }
 
-function Code({ children, ...props }) {
-  let codeHTML = highlight(children);
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+function Code(props) {
+  return (
+    <>
+      {typeof props.children === "string" ? (
+        <code className="rounded !bg-gray-500 p-0.5 text-white before:text-gray-500 after:text-gray-500">
+          {props.children}
+        </code>
+      ) : (
+        <code>{props.children}</code>
+      )}
+    </>
+  );
 }
 
 function slugify(str) {
@@ -89,7 +98,7 @@ function createHeading(level) {
           className: "anchor",
         }),
       ],
-      children
+      children,
     );
   };
 }

@@ -89,14 +89,14 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Harry Potter Interaction Network",
+    title: "Harry Potter Interaction Network (Work in Progress)",
     image:
       "https://raw.githubusercontent.com/nikhil-ravi/Harry-Potter-Network/main/screenshots/network.png",
     description:
       "A network of characters in the Harry Potter series and their interactions with each other.",
     github: "https://github.com/nikhil-ravi/Harry-Potter-Network",
     tags: ["Python", "Neo4j", "Cytoscape.js", "SpaCy", "FastCoref"],
-    url: "harry-potter-network",
+    url: "projects/harry-potter-network",
   },
   {
     title: "LeetScrape",
