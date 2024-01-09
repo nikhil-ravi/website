@@ -153,4 +153,11 @@ export const projects: Project[] = [
     // url: "https://leetscrape.chowkabhara.com/",
     tags: ["Python", "Pygame"],
   },
+  {
+    title: "Project Euler",
+    description: `Project Euler is a series of challenging mathematical/computer programming problems that will require more than just mathematical insights to solve. Although mathematics will help you arrive at elegant and efficient methods, the use of a computer and programming skills will be required to solve most problems. This project contains my solutions to the problems.`,
+    github: "https://github.com/nikhil-ravi",
+    url: "/projects/project-euler",
+    tags: ["Python", "Project Euler"],
+  },
 ];
