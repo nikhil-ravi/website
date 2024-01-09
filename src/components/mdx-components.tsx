@@ -1,11 +1,10 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React from "react";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import rehypePrettyCode from "rehype-pretty-code";
-import Pre from "./pre";
 
 export const customComponents = {
   h1: createHeading(1),
@@ -18,7 +17,6 @@ export const customComponents = {
   a: CustomLink,
   code: Code,
   Table,
-  pre: Pre,
 };
 
 function Table({ data }) {
@@ -64,7 +62,7 @@ function Code(props) {
   return (
     <>
       {typeof props.children === "string" ? (
-        <code className="rounded !bg-gray-500 p-0.5 text-white before:text-gray-500 after:text-gray-500">
+        <code className="rounded !bg-gray-900 p-0.5 text-white before:text-gray-500 after:text-gray-500">
           {props.children}
         </code>
       ) : (
