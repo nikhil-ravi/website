@@ -1,6 +1,11 @@
+import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useRef, useState } from "react";
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
+import rehypePrettyCode from "rehype-pretty-code";
+import Pre from "./pre";
 
 export const customComponents = {
   h1: createHeading(1),
@@ -13,6 +18,7 @@ export const customComponents = {
   a: CustomLink,
   code: Code,
   Table,
+  pre: Pre,
 };
 
 function Table({ data }) {
@@ -97,3 +103,40 @@ function createHeading(level) {
     );
   };
 }
+
+export function CustomMDX(props) {
+  return (
+    <MDXRemote
+      {...props}
+      components={{ ...customComponents, ...(props.components || {}) }}
+      options={{
+        parseFrontmatter: true,
+        mdxOptions: {
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [
+            [rehypeKatex, { output: "mathml" }],
+            [rehypePrettyCode, rehypePrettyCodeOptions],
+          ],
+        },
+      }}
+    />
+  );
+}
+
+const rehypePrettyCodeOptions = {
+  theme: "github-dark",
+  onVisitLine(node) {
+    // Prevent lines from collapsing in `display: grid` mode, and
+    // allow empty lines to be copy/pasted
+    if (node.children.length === 0) {
+      node.children = [{ type: "text", value: " " }];
+    }
+  },
+  // Feel free to add classNames that suit your docs
+  onVisitHighlightedLine(node) {
+    node.properties.className.push("highlighted");
+  },
+  onVisitHighlightedWord(node) {
+    node.properties.className = ["word"];
+  },
+};
